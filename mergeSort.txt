@@ -1,0 +1,56 @@
+class Solution {
+public:
+    vector<int> sortArray(vector<int>& nums) {
+        
+        return mergeSort(nums, 0, (int)nums.size() - 1);
+        
+    }
+    
+    vector<int> mergeSort(vector<int> nums, int start, int end)
+    {
+       if(start >= end)
+       {
+           return vector<int>{nums[end]};
+       }
+        
+        int pivot = start + (end - start) / 2;
+        
+        //cout << start << " " << pivot << " " << end << endl;
+        vector<int> leftSideList = mergeSort(nums, start, pivot);
+        vector<int> rightSideList = mergeSort(nums, pivot + 1, end);
+            
+        return merge(leftSideList, rightSideList);
+    }
+    
+    vector<int> merge(vector<int> left, vector<int> right)
+    {
+        vector<int> final;
+        
+        int left_p = 0, right_p = 0;
+        int left_n = left.size(), right_n = right.size();
+        
+        while(left_p < left_n && right_p < right_n)
+        {
+            if(left[left_p] < right[right_p])
+            {
+                final.push_back(left[left_p++]);
+            }
+            else
+            {
+                final.push_back(right[right_p++]);
+            }
+        }
+        
+        while(left_p < left_n)
+        {
+            final.push_back(left[left_p++]);
+        }
+        
+        while(right_p < right_n)
+        {
+            final.push_back(right[right_p++]);
+        }
+        
+        return final;
+    }
+};
